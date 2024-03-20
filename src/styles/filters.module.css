@@ -1,0 +1,9 @@
+.Filters {
+    width: 25vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+
+    background: #dcdcdc;
+}
