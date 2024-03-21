@@ -26,6 +26,7 @@ const urls = {
         base: discover + movies,
         byId: (id: number): string => `${movies}/${id}`,
         byGenreId: (id: number): string => `${discover + movies}${withGenres + id}`,
+        search: (title: string): string => search + movies + query + title,
         popular: movies + popular,
         topRated: movies + topRated,
         upcoming: movies + upcoming
@@ -34,6 +35,7 @@ const urls = {
         base: discover + tv,
         byId: (id: number): string => `${tv}/${id}`,
         byGenreId: (id: number): string => `${discover + tv}${withGenres + id}`,
+        search: (title: string): string => search + tv + query + title,
         onTheAir: tv + onTheAir,
         popular: tv + popular,
         topRated: tv + topRated,
@@ -41,12 +43,8 @@ const urls = {
     genre: {
         movies: genre + movies + list,
         tv: genre + tv + list
-    },
-    search: {
-        movies: (title: string): string => search + movies + query + title,
-        tv: (title: string): string => search + tv + query + title
     }
-};
+}
 
 
 export {

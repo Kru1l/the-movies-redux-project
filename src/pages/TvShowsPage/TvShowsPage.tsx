@@ -1,10 +1,11 @@
-import {TvFilters} from "../../components";
+import {TvFilters, TvShows} from "../../components";
 
 const TvShowsPage = () => {
 
     return (
-        <div>
+        <div style={{display: 'flex'}}>
             <TvFilters/>
+            <TvShows/>
         </div>
     );
 };

@@ -1,4 +1,7 @@
 body {
     margin: 0;
-    padding: 0;
+    padding: 11vh 0 0;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    background: #f6f6f6;
 }

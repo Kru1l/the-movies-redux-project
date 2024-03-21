@@ -1,15 +1,15 @@
 import {FC, SyntheticEvent} from 'react';
 
 import styles from '../../../styles/moviesTvs.module.css';
+import {ITv} from "../../../interfaces";
 import {posterURL} from "../../../constans";
-import {IMovie} from "../../../interfaces";
 
 interface IProps {
-    movie: IMovie
+    tvShow: ITv
 }
 
-const Movie: FC<IProps> = ({movie}) => {
-    const {id, title, poster_path} = movie;
+const TvShow: FC<IProps> = ({tvShow}) => {
+    const {id, name, poster_path} = tvShow;
 
     const handleImageError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
         e.currentTarget.src = 'https://bamsibahamas.edu.bs/assets/images/default-img.png';
@@ -17,10 +17,10 @@ const Movie: FC<IProps> = ({movie}) => {
 
     return (
         <div className={styles.Card}>
-            <img src={`${posterURL}${poster_path}`} alt={title} onError={handleImageError}/>
-            <p>{title}</p>
+            <img src={`${posterURL}${poster_path}`} alt={name} onError={handleImageError}/>
+            <p>{name}</p>
         </div>
     );
 };
 
-export {Movie};
+export {TvShow};
