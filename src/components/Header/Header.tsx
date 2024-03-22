@@ -11,6 +11,7 @@ const Header = () => {
     return (
         <div className={styles.Header}>
             <div className={styles.logo}>MOVIES</div>
+
             <SearchForm/>
 
             <nav>

@@ -1,0 +1,6 @@
+.label:hover {
+    color: #0a8afd;
+}
+.label:active {
+    color: #000;
+}

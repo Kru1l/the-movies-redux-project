@@ -37,7 +37,6 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     color: 'silver',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -47,14 +46,16 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
     },
 }));
 
+
 const SearchForm = () => {
     const {register, handleSubmit, reset} = useForm<IQuery>();
     const navigate = useNavigate();
     const {pathname} = useAppLocation();
 
+    // console.log(pathname);
+
     const search: SubmitHandler<IQuery> = ({title}): void => {
-        navigate(`${pathname}/${title}`, {state: {title}});
-        console.log(`${pathname}/${title}`)
+        navigate(pathname.includes('/movies') ? `movies/${title}` : `tv-shows/${title}`);
         reset();
     };
 

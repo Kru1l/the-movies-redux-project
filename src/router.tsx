@@ -11,7 +11,7 @@ let router = createBrowserRouter([
                 index: true, element: <Navigate to={'movies'}/>
             },
             {
-                path: 'movies/:title?', element: <MoviesPage/>
+                path: 'movies/:title?/', element: <MoviesPage/>
             },
             {
                 path: 'tv-shows/:title?', element: <TvShowsPage/>

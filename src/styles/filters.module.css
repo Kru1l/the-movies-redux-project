@@ -1,9 +1,0 @@
-.Filters {
-    width: 15vw;
-    height: inherit;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-
-    background: #e9e9e9;
-}

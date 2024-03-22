@@ -7,13 +7,15 @@ import {tvService} from "../../services";
 interface IState {
     tvShows: ITv[],
     tvShowDetails: ITv,
-    total_pages: number
+    total_pages: number,
+    sortTv: string
 }
 
 const initialState: IState = {
     tvShows: [],
     tvShowDetails: null,
-    total_pages: 0
+    total_pages: 0,
+    sortTv: localStorage.getItem('sortTv') || 'popular'
 };
 
 const getAll = createAsyncThunk<ITvData, { page: string }>(
@@ -68,6 +70,19 @@ const getPopular = createAsyncThunk<ITvData, { page: string }>(
     }
 );
 
+const getAiringToday = createAsyncThunk<ITvData, { page: string }>(
+    'tvSlice/getAiringToday',
+    async ({page}, {rejectWithValue}) => {
+        try {
+            const {data} = await tvService.getAiringToday(page);
+            return data
+        } catch (e) {
+            const error = e as AxiosError;
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
 const getOnTheAir = createAsyncThunk<ITvData, { page: string }>(
     'tvSlice/getOnTheAir',
     async ({page}, {rejectWithValue}) => {
@@ -110,13 +125,18 @@ const search = createAsyncThunk<ITvData, { page: string, title: string }>(
 const tvSlice = createSlice({
     name: 'tvSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        setSortTv: (state, action) => {
+            localStorage.setItem('sortTv', action.payload);
+            state.sortTv = action.payload;
+        }
+    },
     extraReducers: builder =>
         builder
             .addCase(getById.fulfilled, (state, action) => {
                 state.tvShowDetails = action.payload;
             })
-            .addMatcher(isFulfilled(getAll, getByGenreId, getPopular, getOnTheAir, getTopRated, search), (state, action) => {
+            .addMatcher(isFulfilled(getAll, getByGenreId, getPopular, getAiringToday, getOnTheAir, getTopRated, search), (state, action) => {
                 const {results, total_pages} = action.payload;
                 state.tvShows = results;
                 state.total_pages = total_pages;
@@ -131,6 +151,7 @@ const tvActions = {
     getById,
     getByGenreId,
     getPopular,
+    getAiringToday,
     getOnTheAir,
     getTopRated,
     search,

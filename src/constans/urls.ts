@@ -11,10 +11,12 @@ const tv = '/tv';
 const withGenres = '?with_genres='
 
 const popular = '/popular';
+const nowPlaying = '/now_playing';
 const topRated = '/top_rated';
 const upcoming = '/upcoming';
 
 const onTheAir = '/on_the_air';
+const airingToday = '/airing_today'
 
 const genre = '/genre';
 
@@ -25,9 +27,10 @@ const urls = {
     movies: {
         base: discover + movies,
         byId: (id: number): string => `${movies}/${id}`,
-        byGenreId: (id: number): string => `${discover + movies}${withGenres + id}`,
+        byGenreId: (ids: number[]): string => `${discover + movies}${withGenres + ids}`,
         search: (title: string): string => search + movies + query + title,
         popular: movies + popular,
+        nowPlaying: movies + nowPlaying,
         topRated: movies + topRated,
         upcoming: movies + upcoming
     },
@@ -36,9 +39,10 @@ const urls = {
         byId: (id: number): string => `${tv}/${id}`,
         byGenreId: (id: number): string => `${discover + tv}${withGenres + id}`,
         search: (title: string): string => search + tv + query + title,
-        onTheAir: tv + onTheAir,
         popular: tv + popular,
+        airingToday: tv + airingToday,
         topRated: tv + topRated,
+        onTheAir: tv + onTheAir
     },
     genre: {
         movies: genre + movies + list,

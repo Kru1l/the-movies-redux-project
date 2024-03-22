@@ -1,12 +1,14 @@
 import {Outlet} from "react-router-dom";
 
-import {Header} from "../../components";
+import styles from './MainLayout.module.css';
+import {Header, Filters} from "../../components";
 
 const MainLayout = () => {
 
     return (
-        <div>
+        <div className={styles.MainLayout}>
             <Header/>
+            <Filters/>
             <Outlet/>
         </div>
     );

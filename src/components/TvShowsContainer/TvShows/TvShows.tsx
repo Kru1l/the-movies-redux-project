@@ -2,28 +2,40 @@ import {useEffect} from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 
-import styles from '../../../styles/moviesTvs.module.css';
+import styles from '../../../styles/movies-Tvs.module.css';
 import {TvShow} from "../TvShow/TvShow";
-import {tvActions} from "../../../store";
+import {movieActions, tvActions} from "../../../store";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {PaginationAll} from "../../PaginationAll/PaginationAll";
 
 const TvShows = () => {
-    const {tvShows} = useAppSelector(state => state.tvShows);
+    const {tvShows, total_pages, sortTv} = useAppSelector(state => state.tvShows);
     const [query] = useSearchParams({page: '1'});
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {title} = useParams<{ title: string }>();
     const page = query.get('page');
 
-
     useEffect(() => {
         if (title) {
             dispatch(tvActions.search({page, title}));
         } else {
-            dispatch(tvActions.getPopular({page}))
+            switch (sortTv) {
+                case 'popular':
+                    dispatch(tvActions.getPopular({page}));
+                    break;
+                case 'airingToday':
+                    dispatch(tvActions.getAiringToday({page}));
+                    break;
+                case 'topRated':
+                    dispatch(tvActions.getTopRated({page}));
+                    break;
+                case 'onTheAir':
+                    dispatch(tvActions.getOnTheAir({page}))
+                    break;
+            }
         }
-    }, [page, title, dispatch]);
+    }, [page, title, sortTv, dispatch]);
 
     return (
         <div className={styles.Wrap}>
@@ -50,7 +62,7 @@ const TvShows = () => {
                 {tvShows.map(tvShow => <TvShow key={tvShow.id} tvShow={tvShow}/>)}
             </div>
 
-            {tvShows && <PaginationAll/>}
+            {total_pages > 1 && <PaginationAll/>}
         </div>
     );
 };

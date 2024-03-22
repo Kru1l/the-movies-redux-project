@@ -2,14 +2,15 @@ import {useEffect} from "react";
 import CancelIcon from '@mui/icons-material/Cancel';
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 
-import styles from '../../../styles/moviesTvs.module.css';
-import {movieActions} from "../../../store";
+import styles from '../../../styles/movies-Tvs.module.css';
+import {genreActions, movieActions} from "../../../store";
 import {Movie} from "../Movie/Movie";
 import {PaginationAll} from "../../PaginationAll/PaginationAll";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 
 const Movies = () => {
-    const {movies} = useAppSelector(state => state.movies);
+    const {movies, total_pages, sortMv} = useAppSelector(state => state.movies);
+    const {genresIds} = useAppSelector(state => state.genres);
     const [query] = useSearchParams({page: '1'});
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -17,12 +18,32 @@ const Movies = () => {
     const page = query.get('page');
 
     useEffect(() => {
-        if (title) {
+        if (genresIds) {
+            dispatch(movieActions.getByGenreId({page, ids: genresIds}));
+        } else if (title) {
             dispatch(movieActions.search({page, title}));
         } else {
-            dispatch(movieActions.getAll({page}));
+            switch (sortMv) {
+                case 'popular':
+                    dispatch(movieActions.getPopular({page}));
+                    break;
+                case 'nowPlaying':
+                    dispatch(movieActions.getNowPlaying({page}));
+                    break;
+                case 'topRated':
+                    dispatch(movieActions.getTopRated({page}));
+                    break;
+                case 'upcoming':
+                    dispatch(movieActions.getUpcoming({page}))
+                    break;
+            }
         }
-    }, [page, dispatch, title]);
+    }, [page, title, sortMv, dispatch, genresIds]);
+
+    const cancelFilters = () => {
+        dispatch(genreActions.deleteGenresIds());
+        navigate('/movies');
+    }
 
     return (
         <div className={styles.Wrap}>
@@ -35,14 +56,14 @@ const Movies = () => {
                 Movies? You are guaranteed to find a movie you want to watch.
             </p>
 
-            {title && <div className={styles.queries}>
+            {title || genresIds.length !== 0 && <div className={styles.queries}>
                 <div className={styles.box}>
                     <div className={styles.search}>
-                        <h4>Search</h4>
-                        <p>{title}</p>
+                        <h4>{title ? 'Search' : 'Genres'}</h4>
+                        <p>{title ? title : 'Horror'}</p>
                     </div>
                     <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
-                                onClick={() => navigate('/movies')}
+                                onClick={title ? () => navigate('/movies') : cancelFilters}
                     />
                 </div>
             </div>}
@@ -51,7 +72,7 @@ const Movies = () => {
                 {movies.map(movie => <Movie key={movie.id} movie={movie}/>)}
             </div>
 
-            {movies && <PaginationAll/>}
+            {total_pages > 1 && <PaginationAll/>}
         </div>
     );
 };

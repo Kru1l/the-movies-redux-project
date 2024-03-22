@@ -1,6 +1,6 @@
 import {FC, SyntheticEvent} from 'react';
 
-import styles from '../../../styles/moviesTvs.module.css';
+import styles from '../../../styles/movies-Tvs.module.css';
 import {ITv} from "../../../interfaces";
 import {posterURL} from "../../../constans";
 

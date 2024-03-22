@@ -1,12 +1,11 @@
-import {Movies, MvFilters} from "../../components";
+import {Movies} from "../../components";
 
 import styles from './MoviesPage.module.css';
 
 const MoviesPage = () => {
 
     return (
-        <div style={{display: 'flex'}}>
-            <MvFilters/>
+        <div>
             <Movies/>
         </div>
     );
