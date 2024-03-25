@@ -44,11 +44,11 @@ const getById = createAsyncThunk<ITv, { id: number }>(
     }
 );
 
-const getByGenreId = createAsyncThunk<ITvData, { page: string, id: number }>(
-    'tvSlice/getByGenreId',
-    async ({page, id}, {rejectWithValue}) => {
+const getByGenreIds = createAsyncThunk<ITvData, { page: string, ids: number[] }>(
+    'tvSlice/getByGenreIds',
+    async ({page, ids}, {rejectWithValue}) => {
         try {
-            const {data} = await tvService.getByGenreId(page, id);
+            const {data} = await tvService.getByGenreIds(page, ids);
             return data
         } catch (e) {
             const error = e as AxiosError;
@@ -136,7 +136,7 @@ const tvSlice = createSlice({
             .addCase(getById.fulfilled, (state, action) => {
                 state.tvShowDetails = action.payload;
             })
-            .addMatcher(isFulfilled(getAll, getByGenreId, getPopular, getAiringToday, getOnTheAir, getTopRated, search), (state, action) => {
+            .addMatcher(isFulfilled(getAll, getByGenreIds, getPopular, getAiringToday, getOnTheAir, getTopRated, search), (state, action) => {
                 const {results, total_pages} = action.payload;
                 state.tvShows = results;
                 state.total_pages = total_pages;
@@ -149,7 +149,7 @@ const tvActions = {
     ...actions,
     getAll,
     getById,
-    getByGenreId,
+    getByGenreIds,
     getPopular,
     getAiringToday,
     getOnTheAir,

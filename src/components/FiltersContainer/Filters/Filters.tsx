@@ -9,19 +9,21 @@ import RemoveIcon from '@mui/icons-material/Remove';
 
 import styles from './Filters.module.css';
 import {useAppDispatch, useAppSelector} from "../../../hooks";
-import {movieActions, tvActions} from "../../../store";
+import {genreActions, movieActions, tvActions} from "../../../store";
 import {Genres} from "../Genres/Genres";
 
 const Filters = () => {
     const [expandedSort, setExpandedSort] = useState<string>('panel1');
     const [expandedGenres, setExpandedGenres] = useState<string>(null);
 
+    const {sortMv} = useAppSelector(state => state.movies);
+    const {sortTv} = useAppSelector(state => state.tvShows);
+
+    const dispatch = useAppDispatch();
+
     const {pathname} = useLocation();
     const navigate = useNavigate();
 
-    const {sortMv} = useAppSelector(state => state.movies);
-    const {sortTv} = useAppSelector(state => state.tvShows);
-    const dispatch = useAppDispatch();
     const handleSortChange = (panel: string) => (event: SyntheticEvent, isExpanded: boolean): void => {
         setExpandedSort(isExpanded ? panel : null);
     };
@@ -32,9 +34,14 @@ const Filters = () => {
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         if (pathname.includes('/movies')) {
             dispatch(movieActions.setSortMv((event.target as HTMLInputElement).value));
+            // dispatch(genreActions.changeTrigger());
+            setExpandedGenres(null);
+            dispatch(genreActions.deleteGenresMvIds());
             navigate('/movies');
         } else {
             dispatch(tvActions.setSortTv((event.target as HTMLInputElement).value));
+            setExpandedGenres(null);
+            dispatch(genreActions.deleteGenresTvIds());
             navigate('/tv-shows');
         }
     };

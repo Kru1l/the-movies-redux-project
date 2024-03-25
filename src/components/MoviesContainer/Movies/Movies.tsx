@@ -10,7 +10,7 @@ import {useAppDispatch, useAppSelector} from "../../../hooks";
 
 const Movies = () => {
     const {movies, total_pages, sortMv} = useAppSelector(state => state.movies);
-    const {genresIds} = useAppSelector(state => state.genres);
+    const {genresMvIds} = useAppSelector(state => state.genres);
     const [query] = useSearchParams({page: '1'});
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -18,8 +18,8 @@ const Movies = () => {
     const page = query.get('page');
 
     useEffect(() => {
-        if (genresIds) {
-            dispatch(movieActions.getByGenreId({page, ids: genresIds}));
+        if (genresMvIds.length) {
+            dispatch(movieActions.getByGenreIds({page, ids: genresMvIds}));
         } else if (title) {
             dispatch(movieActions.search({page, title}));
         } else {
@@ -38,12 +38,14 @@ const Movies = () => {
                     break;
             }
         }
-    }, [page, title, sortMv, dispatch, genresIds]);
+    }, [page, title, sortMv, genresMvIds, dispatch]);
+
+    // console.log(genresIds.length ? 'here nums' : 'пусто');
 
     const cancelFilters = () => {
-        dispatch(genreActions.deleteGenresIds());
+        dispatch(genreActions.deleteGenresMvIds());
         navigate('/movies');
-    }
+    };
 
     return (
         <div className={styles.Wrap}>
@@ -56,17 +58,29 @@ const Movies = () => {
                 Movies? You are guaranteed to find a movie you want to watch.
             </p>
 
-            {title || genresIds.length !== 0 && <div className={styles.queries}>
+            {title ? <div className={styles.queries}>
                 <div className={styles.box}>
                     <div className={styles.search}>
-                        <h4>{title ? 'Search' : 'Genres'}</h4>
-                        <p>{title ? title : 'Horror'}</p>
+                        <h4>Search</h4>
+                        <p>{title}</p>
                     </div>
                     <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
-                                onClick={title ? () => navigate('/movies') : cancelFilters}
+                                onClick={() => navigate('/movies')}
                     />
                 </div>
-            </div>}
+            </div>
+:
+            genresMvIds.length ? <div className={styles.queries}>
+                <div className={styles.box}>
+                    <div className={styles.search}>
+                        <h4>Genres</h4>
+                        <p>Horror</p>
+                    </div>
+                    <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
+                                onClick={cancelFilters}
+                    />
+                </div>
+            </div> : null}
 
             <div className={styles.cardsList}>
                 {movies.map(movie => <Movie key={movie.id} movie={movie}/>)}

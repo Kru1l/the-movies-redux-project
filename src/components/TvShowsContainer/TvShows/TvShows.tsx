@@ -4,12 +4,13 @@ import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 
 import styles from '../../../styles/movies-Tvs.module.css';
 import {TvShow} from "../TvShow/TvShow";
-import {movieActions, tvActions} from "../../../store";
+import {genreActions, tvActions} from "../../../store";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {PaginationAll} from "../../PaginationAll/PaginationAll";
 
 const TvShows = () => {
     const {tvShows, total_pages, sortTv} = useAppSelector(state => state.tvShows);
+    const {genresTvIds} = useAppSelector(state => state.genres);
     const [query] = useSearchParams({page: '1'});
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -17,7 +18,9 @@ const TvShows = () => {
     const page = query.get('page');
 
     useEffect(() => {
-        if (title) {
+        if (genresTvIds.length) {
+            dispatch(tvActions.getByGenreIds({page, ids: genresTvIds}));
+        } else if (title) {
             dispatch(tvActions.search({page, title}));
         } else {
             switch (sortTv) {
@@ -35,7 +38,12 @@ const TvShows = () => {
                     break;
             }
         }
-    }, [page, title, sortTv, dispatch]);
+    }, [page, title, sortTv, genresTvIds, dispatch]);
+
+    const cancelFilters = () => {
+        dispatch(genreActions.deleteGenresTvIds());
+        navigate('/tv-shows');
+    };
 
     return (
         <div className={styles.Wrap}>
@@ -45,6 +53,18 @@ const TvShows = () => {
                 A meeting goes late in to the night or the kids have a big game that you cannot miss.
                 But there is a show you want to watch. What is a person supposed to do to watch TV shows online?
             </p>
+
+            {genresTvIds.length ? <div className={styles.queries}>
+                <div className={styles.box}>
+                    <div className={styles.search}>
+                        <h4>Genres</h4>
+                        <p>Horror</p>
+                    </div>
+                    <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
+                                onClick={cancelFilters}
+                    />
+                </div>
+            </div> : null}
 
             {title && <div className={styles.queries}>
                 <div className={styles.box}>

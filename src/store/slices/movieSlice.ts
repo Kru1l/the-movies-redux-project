@@ -44,11 +44,11 @@ const getById = createAsyncThunk<IMovieDetails, { id: number }>(
     }
 );
 
-const getByGenreId = createAsyncThunk<IMovieData, { page: string, ids: number[] }>(
-    'movieSlice/getByGenreId',
+const getByGenreIds = createAsyncThunk<IMovieData, { page: string, ids: number[] }>(
+    'movieSlice/getByGenreIds',
     async ({page, ids}, {rejectWithValue}) => {
         try {
-            const {data} = await movieService.getByGenreId(page, ids);
+            const {data} = await movieService.getByGenreIds(page, ids);
             return data
         } catch (e) {
             const error = e as AxiosError;
@@ -136,11 +136,12 @@ const movieSlice = createSlice({
             .addCase(getById.fulfilled, (state, action) => {
                 state.movieDetails = action.payload;
             })
-            .addMatcher(isFulfilled(getAll, getByGenreId, search, getPopular, getNowPlaying, getTopRated, getUpcoming), (state, action) => {
-                const {results, total_pages} = action.payload;
-                state.movies = results;
-                state.total_pages = total_pages;
-            })
+            .addMatcher(isFulfilled(getAll, getByGenreIds, search, getPopular, getNowPlaying, getTopRated, getUpcoming),
+                (state, action) => {
+                    const {results, total_pages} = action.payload;
+                    state.movies = results;
+                    state.total_pages = total_pages;
+                })
 });
 
 const {reducer: movieReducer, actions} = movieSlice;
@@ -149,7 +150,7 @@ const movieActions = {
     ...actions,
     getAll,
     getById,
-    getByGenreId,
+    getByGenreIds,
     search,
     getPopular,
     getNowPlaying,

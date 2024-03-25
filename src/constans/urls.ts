@@ -23,11 +23,13 @@ const genre = '/genre';
 const search = '/search';
 const query = '?query=';
 
+//                   /movie/upcoming?with_genre=10749
+
 const urls = {
     movies: {
         base: discover + movies,
         byId: (id: number): string => `${movies}/${id}`,
-        byGenreId: (ids: number[]): string => `${discover + movies}${withGenres + ids}`,
+        byGenreIds: (ids: number[]): string => `${discover + movies}${withGenres + ids}`,
         search: (title: string): string => search + movies + query + title,
         popular: movies + popular,
         nowPlaying: movies + nowPlaying,
@@ -37,7 +39,7 @@ const urls = {
     tv: {
         base: discover + tv,
         byId: (id: number): string => `${tv}/${id}`,
-        byGenreId: (id: number): string => `${discover + tv}${withGenres + id}`,
+        byGenreIds: (ids: number[]): string => `${discover + tv}${withGenres + ids}`,
         search: (title: string): string => search + tv + query + title,
         popular: tv + popular,
         airingToday: tv + airingToday,

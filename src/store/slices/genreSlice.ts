@@ -5,14 +5,18 @@ import {genreService} from "../../services";
 
 interface IState {
     genres: IGenre[],
-    genresIds: number[],
-    checked: boolean
+    genresMvIds: number[],
+    genresTvIds: number[],
+    trigger: boolean
+    // checked: boolean
 }
 
 const initialState: IState = {
     genres: [],
-    checked: false,
-    genresIds: JSON.parse(localStorage.getItem('genresIds')) || []
+    // checked: false,
+    genresMvIds: /*JSON.parse(localStorage.getItem('genresIds')) ||*/ [],
+    genresTvIds: [],
+    trigger: null
 };
 
 const getMovieGenres = createAsyncThunk<IGenreData, void>(
@@ -45,21 +49,30 @@ const genreSlice = createSlice({
     name: 'genreSlice',
     initialState,
     reducers: {
-        setGenresIds: (state, action) => {
-            state.genresIds = [...state.genresIds, action.payload];
-            localStorage.setItem('genresIds', JSON.stringify(state.genresIds));
+        setGenresMvIds: (state, action) => {
+            state.genresMvIds = [...state.genresMvIds, action.payload];
+            // localStorage.setItem('genresIds', JSON.stringify(state.genresIds));
         },
-        deleteGenresIds: state => {
-            localStorage.setItem('genresIds', null);
-            state.genresIds = [];
+        setGenresTvIds: (state, action) => {
+            state.genresTvIds = [...state.genresTvIds, action.payload];
         },
-        deleteGenresId: (state, action) => {
-            state.genresIds = state.genresIds.filter(id => id !== action.payload);
-            localStorage.setItem('genresIds', JSON.stringify(state.genresIds));
+        deleteGenresMvIds: state => {
+            state.genresMvIds = [];
+            // localStorage.setItem('genresIds', JSON.stringify([]));
         },
-        setChecked: state => {
-            state.checked = !state.checked;
+        deleteGenresTvIds: state => {
+            state.genresTvIds = [];
         },
+        deleteGenresMvId: (state, action) => {
+            state.genresMvIds = state.genresMvIds.filter(id => id !== action.payload);
+            // localStorage.setItem('genresIds', JSON.stringify(state.genresIds));
+        },
+        deleteGenresTvId: (state, action) => {
+            state.genresTvIds = state.genresTvIds.filter(id => id !== action.payload);
+        },
+        changeTrigger: state => {
+            state.trigger = !state.trigger;
+        }
     },
     extraReducers: builder =>
         builder
