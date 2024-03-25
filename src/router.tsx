@@ -3,6 +3,7 @@ import {createBrowserRouter, Navigate} from "react-router-dom";
 import {MainLayout} from "./layouts";
 import {MoviesPage, TvShowsPage} from "./pages";
 import {ErrorPage} from "./pages/ErrorPage/ErrorPage";
+import {CardDetailsPage} from "./pages/CardDetailsPage/CardDetailsPage";
 
 let router = createBrowserRouter([
     {
@@ -16,6 +17,9 @@ let router = createBrowserRouter([
             {
                 path: 'tv-shows/:title?', element: <TvShowsPage/>
             },
+            {
+                path: '/:card/:id', element: <CardDetailsPage/>
+            }
         ]
     }
 

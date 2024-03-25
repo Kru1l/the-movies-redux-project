@@ -4,3 +4,5 @@ export * from './TvShowsContainer';
 export * from './FiltersContainer';
 export * from './SearchForm/SearchForm';
 export * from './PaginationAll/PaginationAll';
+export * from './ThemeSwitch/ThemeSwitch';
+export * from './CardDetails/CardDetails';

@@ -4,6 +4,7 @@ import {AccountCircle} from "@mui/icons-material";
 
 import styles from './Header.module.css';
 import {SearchForm} from "../SearchForm/SearchForm";
+import {ThemeSwitch} from "../ThemeSwitch/ThemeSwitch";
 
 
 const Header = () => {
@@ -19,7 +20,8 @@ const Header = () => {
                 <NavLink to={'/movies'}>MOVIES</NavLink>
             </nav>
 
-            <Box sx={{flexGrow: 1}}/>
+            <ThemeSwitch/>
+
             <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                 <IconButton
                     size="large"

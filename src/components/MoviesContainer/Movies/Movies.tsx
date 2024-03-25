@@ -17,8 +17,6 @@ const Movies = () => {
     const {title} = useParams<{ title: string }>();
     const page = query.get('page');
 
-    console.log(genresMvNames);
-
     useEffect(() => {
         if (genresMvIds.length) {
             dispatch(movieActions.getByGenreIds({page, ids: genresMvIds}));

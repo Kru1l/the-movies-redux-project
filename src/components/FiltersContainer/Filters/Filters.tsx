@@ -32,8 +32,8 @@ const Filters = () => {
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-            dispatch(genreActions.clearChecked());
-            dispatch(genreActions.deleteGenresInfo());
+        dispatch(genreActions.clearChecked());
+        dispatch(genreActions.deleteGenresInfo());
         if (pathname.includes('/movies')) {
             dispatch(movieActions.setSortMv((event.target as HTMLInputElement).value));
             setExpandedGenres(null);
@@ -63,27 +63,28 @@ const Filters = () => {
                             onChange={handleChange}
                         >
                             <FormControlLabel
-                                className={pathname.includes('/movies') && sortMv === 'popular' || pathname.includes('/tv-shows') && sortTv === 'popular' ?
-                                    styles.activeLabel : styles.label}
+                                className={(pathname.includes('/movies') && sortMv === 'popular') || (pathname.includes('/tv-shows') && sortTv === 'popular')
+                                    ? styles.activeLabel : styles.label}
+
                                 value="popular" control={<Radio color={'success'}/>}
                                 label="Popular"
                             />
 
                             <FormControlLabel
-                                className={pathname.includes('/movies') && sortMv === 'nowPlaying' || pathname.includes('/tv-shows') && sortTv === 'airingToday' ?
-                                    styles.activeLabel : styles.label}
+                                className={(pathname.includes('/movies') && sortMv === 'nowPlaying') || (pathname.includes('/tv-shows') && sortTv === 'airingToday')
+                                    ? styles.activeLabel : styles.label}
                                 value={pathname.includes('/movies') ? 'nowPlaying' : 'airingToday'}
                                 control={<Radio color={'success'}/>}
                                 label={pathname.includes('/movies') ? 'Now Playing' : 'Airing Today'}/>
 
                             <FormControlLabel
-                                className={pathname.includes('/movies') && sortMv === 'topRated' || pathname.includes('/tv-shows') && sortTv === 'topRated' ?
-                                    styles.activeLabel : styles.label}
+                                className={(pathname.includes('/movies') && sortMv === 'topRated') || (pathname.includes('/tv-shows') && sortTv === 'topRated')
+                                    ? styles.activeLabel : styles.label}
                                 value="topRated" control={<Radio color={"success"}/>} label="Top Rated"/>
 
                             <FormControlLabel
-                                className={pathname.includes('/movies') && sortMv === 'upcoming' || pathname.includes('/tv-shows') && sortTv === 'onTheAir' ?
-                                    styles.activeLabel : styles.label}
+                                className={(pathname.includes('/movies') && sortMv === 'upcoming') || (pathname.includes('/tv-shows') && sortTv === 'onTheAir')
+                                    ? styles.activeLabel : styles.label}
                                 value={pathname.includes('/movies') ? 'upcoming' : 'onTheAir'}
                                 control={<Radio color={"success"}/>}
                                 label={pathname.includes('/movies') ? 'Upcoming' : 'On The Air'}/>
