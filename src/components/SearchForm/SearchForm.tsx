@@ -4,8 +4,9 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {alpha, styled} from '@mui/material/styles';
 
-import {useAppLocation} from "../../hooks";
+import {useAppDispatch, useAppLocation} from "../../hooks";
 import {IQuery} from "../../interfaces";
+import {genreActions} from "../../store";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -50,11 +51,12 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 const SearchForm = () => {
     const {register, handleSubmit, reset} = useForm<IQuery>();
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const {pathname} = useAppLocation();
 
-    // console.log(pathname);
-
     const search: SubmitHandler<IQuery> = ({title}): void => {
+        dispatch(genreActions.deleteGenresInfo());
+        dispatch(genreActions.clearChecked());
         navigate(pathname.includes('/movies') ? `movies/${title}` : `tv-shows/${title}`);
         reset();
     };

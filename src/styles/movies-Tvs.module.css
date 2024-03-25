@@ -22,11 +22,14 @@
 }
 
 .queries {
-    width: 100%;
+    /*width: 100%;*/
+    margin-right: auto;
+    margin-left: 0.4vw;
 }
 
 .box {
-    width: 10.5vw;
+    min-width: 10.5vw;
+    flex-flow: wrap;
     height: 10vh;
     display: flex;
     justify-content: space-between;
@@ -49,11 +52,13 @@
 }
 
 .search > h4 {
+    font-size: 18px;
     margin: 0;
 }
 
-.search > p {
-    margin: 0;
+.search p {
+    font-size: 15px;
+    margin: 0 10px 0 0;
 }
 
 #cancel:hover {

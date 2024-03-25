@@ -32,16 +32,15 @@ const Filters = () => {
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+            dispatch(genreActions.clearChecked());
+            dispatch(genreActions.deleteGenresInfo());
         if (pathname.includes('/movies')) {
             dispatch(movieActions.setSortMv((event.target as HTMLInputElement).value));
-            // dispatch(genreActions.changeTrigger());
             setExpandedGenres(null);
-            dispatch(genreActions.deleteGenresMvIds());
             navigate('/movies');
         } else {
             dispatch(tvActions.setSortTv((event.target as HTMLInputElement).value));
             setExpandedGenres(null);
-            dispatch(genreActions.deleteGenresTvIds());
             navigate('/tv-shows');
         }
     };
@@ -60,8 +59,6 @@ const Filters = () => {
                     <FormControl>
                         <RadioGroup
                             sx={{ml: '11px'}}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
                             value={pathname.includes('/movies') ? sortMv : sortTv}
                             onChange={handleChange}
                         >

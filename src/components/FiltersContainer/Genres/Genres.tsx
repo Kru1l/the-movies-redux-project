@@ -1,13 +1,12 @@
 import {useEffect} from "react";
 import {FormGroup} from "@mui/material";
-
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {genreActions} from "../../../store";
 import {Genre} from "../Genre/Genre";
 import {useLocation} from "react-router-dom";
 
 const Genres = () => {
-    const {genres, trigger} = useAppSelector(state => state.genres);
+    const {genres} = useAppSelector(state => state.genres);
     const dispatch = useAppDispatch();
     const {pathname} = useLocation();
 
@@ -17,14 +16,13 @@ const Genres = () => {
         } else {
             dispatch(genreActions.getTvShowsGenres());
         }
-    }, [pathname, trigger, dispatch]);
-
-    // console.log(trigger)
+    }, [pathname, dispatch]);
 
     return (
         <FormGroup>
             {genres.map(genre => <Genre key={genre.id} genre={genre}/>)}
         </FormGroup>
+
     );
 };
 

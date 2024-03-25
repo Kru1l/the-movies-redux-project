@@ -10,7 +10,7 @@ import {PaginationAll} from "../../PaginationAll/PaginationAll";
 
 const TvShows = () => {
     const {tvShows, total_pages, sortTv} = useAppSelector(state => state.tvShows);
-    const {genresTvIds} = useAppSelector(state => state.genres);
+    const {genresTvIds, genresTvNames} = useAppSelector(state => state.genres);
     const [query] = useSearchParams({page: '1'});
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -40,8 +40,9 @@ const TvShows = () => {
         }
     }, [page, title, sortTv, genresTvIds, dispatch]);
 
-    const cancelFilters = () => {
-        dispatch(genreActions.deleteGenresTvIds());
+    const cancelFilters = (): void => {
+        dispatch(genreActions.deleteGenresInfo());
+        dispatch(genreActions.clearChecked());
         navigate('/tv-shows');
     };
 
@@ -54,18 +55,6 @@ const TvShows = () => {
                 But there is a show you want to watch. What is a person supposed to do to watch TV shows online?
             </p>
 
-            {genresTvIds.length ? <div className={styles.queries}>
-                <div className={styles.box}>
-                    <div className={styles.search}>
-                        <h4>Genres</h4>
-                        <p>Horror</p>
-                    </div>
-                    <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
-                                onClick={cancelFilters}
-                    />
-                </div>
-            </div> : null}
-
             {title && <div className={styles.queries}>
                 <div className={styles.box}>
                     <div className={styles.search}>
@@ -77,6 +66,20 @@ const TvShows = () => {
                     />
                 </div>
             </div>}
+
+            {genresTvNames.length ? <div className={styles.queries}>
+                <div className={styles.box}>
+                    <div className={styles.search}>
+                        <h4>Genres</h4>
+                        <div style={{display: 'flex'}}>
+                            <p>{genresTvNames.join(', ')}</p>
+                        </div>
+                    </div>
+                    <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
+                                onClick={cancelFilters}
+                    />
+                </div>
+            </div> : null}
 
             <div className={styles.cardsList}>
                 {tvShows.map(tvShow => <TvShow key={tvShow.id} tvShow={tvShow}/>)}

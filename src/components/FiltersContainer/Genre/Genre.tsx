@@ -1,4 +1,4 @@
-import {ChangeEvent, FC, useEffect, useState} from 'react';
+import {ChangeEvent, FC} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 import {Checkbox, FormControlLabel} from "@mui/material";
 
@@ -13,14 +13,7 @@ interface IProps {
 
 const Genre: FC<IProps> = ({genre}) => {
     const {id, name} = genre;
-    const [checked, setChecked] = useState<boolean>(localStorage.getItem(`genre-${id}`) === 'true' || false);
-    // const [checked, setChecked] = useState<boolean>(false);
-
-    const {trigger} = useAppSelector(state => state.genres);
-
-    useEffect(() => {
-
-    }, [trigger]);
+    const {checkedMv, checkedTv} = useAppSelector(state => state.genres);
 
 
     const {pathname} = useLocation();
@@ -28,33 +21,35 @@ const Genre: FC<IProps> = ({genre}) => {
     const navigate = useNavigate();
 
     const handleChangeMovie = (event: ChangeEvent<HTMLInputElement>): void => {
-        setChecked(event.target.checked);
-        localStorage.setItem(`genreMv-${id}`, JSON.stringify(event.target.checked));
+        dispatch(genreActions.setCheckedMv({name, checkedMv: event.target.checked}));
         navigate('/movies');
         if (event.target.checked) {
-            dispatch(genreActions.setGenresMvIds(id));
+            dispatch(genreActions.setGenresMvInfo({id, name}));
         } else {
-            dispatch(genreActions.deleteGenresMvId(id));
+            dispatch(genreActions.deleteGenreMv({id, name}));
         }
     };
 
     const handleChangeTv = (event: ChangeEvent<HTMLInputElement>): void => {
-        setChecked(event.target.checked);
+        dispatch(genreActions.setCheckedTv({name, checkedTv: event.target.checked}));
         navigate('/tv-shows');
         if (event.target.checked) {
-            dispatch(genreActions.setGenresTvIds(id));
+            dispatch(genreActions.setGenresTvInfo({id, name}));
         } else {
-            dispatch(genreActions.deleteGenresTvId(id));
+            dispatch(genreActions.deleteGenreTv({id, name}));
         }
     };
 
     return (
         <FormControlLabel className={styles.label}
-                          control={<Checkbox checked={checked}
-                                             onChange={pathname.includes('/movies') ? handleChangeMovie : handleChangeTv}
-                                             color={'success'}/>}
+                          control={<Checkbox
+                              checked={pathname.includes('/movies') ? checkedMv[name] || false : checkedTv[name] || false}
+                              onChange={pathname.includes('/movies') ? handleChangeMovie : handleChangeTv}
+                              name={name}
+                              color={'success'}/>}
                           label={name}/>
     );
 };
 
 export {Genre};
+

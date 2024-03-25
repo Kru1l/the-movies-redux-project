@@ -10,12 +10,14 @@ import {useAppDispatch, useAppSelector} from "../../../hooks";
 
 const Movies = () => {
     const {movies, total_pages, sortMv} = useAppSelector(state => state.movies);
-    const {genresMvIds} = useAppSelector(state => state.genres);
+    const {genresMvIds, genresMvNames} = useAppSelector(state => state.genres);
     const [query] = useSearchParams({page: '1'});
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {title} = useParams<{ title: string }>();
     const page = query.get('page');
+
+    console.log(genresMvNames);
 
     useEffect(() => {
         if (genresMvIds.length) {
@@ -40,10 +42,9 @@ const Movies = () => {
         }
     }, [page, title, sortMv, genresMvIds, dispatch]);
 
-    // console.log(genresIds.length ? 'here nums' : 'пусто');
-
-    const cancelFilters = () => {
-        dispatch(genreActions.deleteGenresMvIds());
+    const cancelFilters = (): void => {
+        dispatch(genreActions.deleteGenresInfo());
+        dispatch(genreActions.clearChecked());
         navigate('/movies');
     };
 
@@ -59,28 +60,30 @@ const Movies = () => {
             </p>
 
             {title ? <div className={styles.queries}>
-                <div className={styles.box}>
-                    <div className={styles.search}>
-                        <h4>Search</h4>
-                        <p>{title}</p>
+                    <div className={styles.box}>
+                        <div className={styles.search}>
+                            <h4>Search</h4>
+                            <p>{title}</p>
+                        </div>
+                        <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
+                                    onClick={() => navigate('/movies')}
+                        />
                     </div>
-                    <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
-                                onClick={() => navigate('/movies')}
-                    />
                 </div>
-            </div>
-:
-            genresMvIds.length ? <div className={styles.queries}>
-                <div className={styles.box}>
-                    <div className={styles.search}>
-                        <h4>Genres</h4>
-                        <p>Horror</p>
+                :
+                genresMvNames.length ? <div className={styles.queries}>
+                    <div className={styles.box}>
+                        <div className={styles.search}>
+                            <h4>Genres</h4>
+                            <div style={{display: 'flex'}}>
+                                <p>{genresMvNames.join(', ')}</p>
+                            </div>
+                        </div>
+                        <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
+                                    onClick={cancelFilters}
+                        />
                     </div>
-                    <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
-                                onClick={cancelFilters}
-                    />
-                </div>
-            </div> : null}
+                </div> : null}
 
             <div className={styles.cardsList}>
                 {movies.map(movie => <Movie key={movie.id} movie={movie}/>)}

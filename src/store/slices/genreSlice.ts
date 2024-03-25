@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, isFulfilled} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, isFulfilled, PayloadAction} from "@reduxjs/toolkit";
 import {IGenre, IGenreData} from "../../interfaces";
 import {AxiosError} from "axios";
 import {genreService} from "../../services";
@@ -7,16 +7,20 @@ interface IState {
     genres: IGenre[],
     genresMvIds: number[],
     genresTvIds: number[],
-    trigger: boolean
-    // checked: boolean
+    genresMvNames: string[],
+    genresTvNames: string[],
+    checkedMv: { [key: string]: boolean },
+    checkedTv: { [key: string]: boolean },
 }
 
 const initialState: IState = {
     genres: [],
-    // checked: false,
-    genresMvIds: /*JSON.parse(localStorage.getItem('genresIds')) ||*/ [],
+    genresMvIds: [],
     genresTvIds: [],
-    trigger: null
+    genresMvNames: [],
+    genresTvNames: [],
+    checkedMv: {},
+    checkedTv: {},
 };
 
 const getMovieGenres = createAsyncThunk<IGenreData, void>(
@@ -49,29 +53,41 @@ const genreSlice = createSlice({
     name: 'genreSlice',
     initialState,
     reducers: {
-        setGenresMvIds: (state, action) => {
-            state.genresMvIds = [...state.genresMvIds, action.payload];
-            // localStorage.setItem('genresIds', JSON.stringify(state.genresIds));
+        setGenresMvInfo: (state, action: PayloadAction<{ id: number, name: string }>) => {
+            const {id, name} = action.payload;
+            state.genresMvIds = [...state.genresMvIds, id];
+            state.genresMvNames = [...state.genresMvNames, name];
         },
-        setGenresTvIds: (state, action) => {
-            state.genresTvIds = [...state.genresTvIds, action.payload];
+        setGenresTvInfo: (state, action: PayloadAction<{ id: number, name: string }>) => {
+            const {id, name} = action.payload;
+            state.genresTvIds = [...state.genresTvIds, id];
+            state.genresTvNames = [...state.genresTvNames, name];
         },
-        deleteGenresMvIds: state => {
+        deleteGenresInfo: state => {
             state.genresMvIds = [];
-            // localStorage.setItem('genresIds', JSON.stringify([]));
-        },
-        deleteGenresTvIds: state => {
             state.genresTvIds = [];
+            state.genresMvNames = [];
+            state.genresTvNames = [];
         },
-        deleteGenresMvId: (state, action) => {
-            state.genresMvIds = state.genresMvIds.filter(id => id !== action.payload);
-            // localStorage.setItem('genresIds', JSON.stringify(state.genresIds));
+        deleteGenreMv: (state, action: PayloadAction<{ id: number, name: string }>) => {
+            state.genresMvIds = state.genresMvIds.filter(id => id !== action.payload.id);
+            state.genresMvNames = state.genresMvNames.filter(name => name !== action.payload.name);
         },
-        deleteGenresTvId: (state, action) => {
-            state.genresTvIds = state.genresTvIds.filter(id => id !== action.payload);
+        deleteGenreTv: (state, action: PayloadAction<{ id: number, name: string }>) => {
+            state.genresTvIds = state.genresTvIds.filter(id => id !== action.payload.id);
+            state.genresTvNames = state.genresTvNames.filter(name => name !== action.payload.name);
         },
-        changeTrigger: state => {
-            state.trigger = !state.trigger;
+        setCheckedMv: (state, action: PayloadAction<{ name: string; checkedMv: boolean }>) => {
+            const {name, checkedMv} = action.payload;
+            state.checkedMv[name] = checkedMv;
+        },
+        setCheckedTv: (state, action: PayloadAction<{ name: string; checkedTv: boolean }>) => {
+            const {name, checkedTv} = action.payload;
+            state.checkedTv[name] = checkedTv;
+        },
+        clearChecked: state => {
+            state.checkedMv = {};
+            state.checkedTv = {};
         }
     },
     extraReducers: builder =>
