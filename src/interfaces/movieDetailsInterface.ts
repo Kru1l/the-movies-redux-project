@@ -52,4 +52,9 @@ interface ISpoken_languages {
     name: string
 }
 
-export type {IMovieDetails};
+export type {
+    IMovieDetails,
+    IProduction_countries,
+    IProduction_companies,
+    ISpoken_languages
+};

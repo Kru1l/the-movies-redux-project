@@ -55,37 +55,39 @@ const TvShows = () => {
                 But there is a show you want to watch. What is a person supposed to do to watch TV shows online?
             </p>
 
-            {title && <div className={styles.queries}>
-                <div className={styles.box}>
-                    <div className={styles.search}>
-                        <h4>Search</h4>
-                        <p>{title}</p>
-                    </div>
-                    <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
-                                onClick={() => navigate('/tv-shows')}
-                    />
-                </div>
-            </div>}
-
-            {genresTvNames.length ? <div className={styles.queries}>
-                <div className={styles.box}>
-                    <div className={styles.search}>
-                        <h4>Genres</h4>
-                        <div style={{display: 'flex'}}>
-                            <p>{genresTvNames.join(', ')}</p>
+            {title ? (<div className={styles.queries}>
+                    <div className={styles.box}>
+                        <div className={styles.search}>
+                            <h4>Search</h4>
+                            <p>{title}</p>
                         </div>
+                        <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
+                                    onClick={() => navigate('/tv-shows')}
+                        />
                     </div>
-                    <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
-                                onClick={cancelFilters}
-                    />
-                </div>
-            </div> : null}
+                </div>)
+                :
+                genresTvNames.length ? (<div className={styles.queries}>
+                    <div className={styles.box}>
+                        <div className={styles.search}>
+                            <h4>Genres</h4>
+                            <div style={{display: 'flex'}}>
+                                <p>{genresTvNames.join(', ')}</p>
+                            </div>
+                        </div>
+                        <CancelIcon color={'disabled'} id={styles.cancel} fontSize={'large'} cursor={'pointer'}
+                                    onClick={cancelFilters}
+                        />
+                    </div>
+                </div>) : null}
 
             <div className={styles.cardsList}>
                 {tvShows.map(tvShow => <TvShow key={tvShow.id} tvShow={tvShow}/>)}
             </div>
 
-            {total_pages > 1 && <PaginationAll/>}
+            {
+                total_pages > 1 && <PaginationAll/>
+            }
         </div>
     );
 };

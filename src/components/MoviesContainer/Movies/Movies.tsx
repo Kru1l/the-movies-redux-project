@@ -57,7 +57,7 @@ const Movies = () => {
                 Movies? You are guaranteed to find a movie you want to watch.
             </p>
 
-            {title ? <div className={styles.queries}>
+            {title ? (<div className={styles.queries}>
                     <div className={styles.box}>
                         <div className={styles.search}>
                             <h4>Search</h4>
@@ -67,9 +67,9 @@ const Movies = () => {
                                     onClick={() => navigate('/movies')}
                         />
                     </div>
-                </div>
+                </div>)
                 :
-                genresMvNames.length ? <div className={styles.queries}>
+                genresMvNames.length ? (<div className={styles.queries}>
                     <div className={styles.box}>
                         <div className={styles.search}>
                             <h4>Genres</h4>
@@ -81,7 +81,7 @@ const Movies = () => {
                                     onClick={cancelFilters}
                         />
                     </div>
-                </div> : null}
+                </div>) : null}
 
             <div className={styles.cardsList}>
                 {movies.map(movie => <Movie key={movie.id} movie={movie}/>)}

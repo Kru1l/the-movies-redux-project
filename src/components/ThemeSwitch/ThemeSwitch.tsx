@@ -1,5 +1,4 @@
-import {styled} from "@mui/material/styles";
-import {createTheme, FormControlLabel, FormGroup, Switch} from "@mui/material";
+import {createTheme, FormControlLabel, FormGroup, styled, Switch} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {themeActions} from "../../store";
 
@@ -71,7 +70,7 @@ const ThemeSwitch = () => {
         },
     });
 
-    console.log(lightTheme);
+    // console.log(lightTheme);
 
     const toggleTheme = () => {
         dispatch(themeActions.setIsDarkMode())

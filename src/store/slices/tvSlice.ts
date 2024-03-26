@@ -1,12 +1,12 @@
 import {AxiosError} from "axios";
 import {createAsyncThunk, createSlice, isFulfilled} from "@reduxjs/toolkit";
 
-import {ITv, ITvData} from "../../interfaces";
+import {ITv, ITvData, ITvShowDetails} from "../../interfaces";
 import {tvService} from "../../services";
 
 interface IState {
     tvShows: ITv[],
-    tvShowDetails: ITv,
+    tvShowDetails: ITvShowDetails,
     total_pages: number,
     sortTv: string
 }
@@ -31,7 +31,7 @@ const getAll = createAsyncThunk<ITvData, { page: string }>(
     }
 );
 
-const getById = createAsyncThunk<ITv, { id: number }>(
+const getById = createAsyncThunk<ITvShowDetails, { id: number }>(
     'tvSlice/getById',
     async ({id}, {rejectWithValue}) => {
         try {
