@@ -1,13 +1,15 @@
 import {configureStore} from "@reduxjs/toolkit";
 
-import {genreReducer, movieReducer, themeReducer, tvReducer} from "./slices";
+import {genreReducer, loadingReducer, movieReducer, themeReducer, tvReducer, watchListReducer} from "./slices";
 
 let store = configureStore({
     reducer: {
         movies: movieReducer,
         tvShows: tvReducer,
         genres: genreReducer,
-        theme: themeReducer
+        theme: themeReducer,
+        loading: loadingReducer,
+        watchList: watchListReducer
     }
 });
 

@@ -1,26 +1,26 @@
 import {FC, SyntheticEvent} from 'react';
 import {useNavigate} from "react-router-dom";
 
-import styles from '../../../styles/movies-Tvs.module.css';
-import altImg from "../../../styles/images/alt-img.png";
+import styles from "../../../styles/movies-Tvs.module.css";
 import {posterURL} from "../../../constans";
-import {ITv} from "../../../interfaces";
+import {ITvShowDetails} from "../../../interfaces";
 import {useAppSelector} from "../../../hooks";
+import altImg from "../../../styles/images/alt-img.png";
 
 interface IProps {
-    tvShow: ITv
+    tv: ITvShowDetails
 }
 
-const TvShow: FC<IProps> = ({tvShow}) => {
-    const {id, name, poster_path} = tvShow;
+const SavedTvShow: FC<IProps> = ({tv}) => {
+    const {id, name, poster_path} = tv;
 
     const {isDarkMode} = useAppSelector(state => state.theme);
     const navigate = useNavigate();
 
-    const handleImageError = (e: SyntheticEvent<HTMLImageElement>): void => {
-        if (e.currentTarget.src !== altImg) {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = altImg;
+    const handleImageError = (event: SyntheticEvent<HTMLImageElement>): void => {
+        if (event.currentTarget.src !== altImg) {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = altImg;
         }
     };
 
@@ -32,4 +32,4 @@ const TvShow: FC<IProps> = ({tvShow}) => {
     );
 };
 
-export {TvShow};
+export {SavedTvShow};

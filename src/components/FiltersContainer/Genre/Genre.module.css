@@ -4,3 +4,11 @@
 .label:active {
     color: #000;
 }
+
+.dark:hover {
+    color: silver;
+}
+
+.dark:active {
+    color: silver;
+}

@@ -1,16 +1,17 @@
-import {Outlet} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import styles from './MainLayout.module.css';
-import {Header, Filters} from "../../components";
-import {useAppSelector} from "../../hooks";
+import {Filters, Header} from "../../components";
 
 const MainLayout = () => {
-    const {theme, isDarkMode} = useAppSelector(state => state.theme);
+    const {pathname} = useLocation();
 
     return (
-        <div className={`${styles.MainLayout} ${styles.sas}}`}>
+        <div
+            className={`${styles.MainLayout} ${!(pathname.includes('movies') || pathname.includes('tv-shows')) && styles.removeMr}`}>
             <Header/>
-            <Filters/>
+            {(pathname.includes('movies') || pathname.includes('tv-shows')) && <Filters/>}
             <Outlet/>
         </div>
     );

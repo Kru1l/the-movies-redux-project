@@ -1,9 +1,10 @@
 import {useEffect} from "react";
-import {FormGroup} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../../../hooks";
-import {genreActions} from "../../../store";
-import {Genre} from "../Genre/Genre";
 import {useLocation} from "react-router-dom";
+import {FormGroup} from "@mui/material";
+
+import {Genre} from "../Genre/Genre";
+import {genreActions} from "../../../store";
+import {useAppDispatch, useAppSelector} from "../../../hooks";
 
 const Genres = () => {
     const {genres} = useAppSelector(state => state.genres);
@@ -22,7 +23,6 @@ const Genres = () => {
         <FormGroup>
             {genres.map(genre => <Genre key={genre.id} genre={genre}/>)}
         </FormGroup>
-
     );
 };
 

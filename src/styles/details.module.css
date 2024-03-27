@@ -1,10 +1,12 @@
 .Details {
-    width: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-flow: wrap;
     align-items: center;
     box-sizing: border-box;
-    /*color: white;*/
+    background: url("images/backdrop-1280x720.jpg") 0 0/100% fixed;
+    color: black;
 }
 
 
@@ -26,42 +28,51 @@
 
 #poster {
     width: 300px;
-    border-radius: 10px;
 }
 
 .right {
-    width: 70%;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
     align-items: flex-start;
     box-sizing: border-box;
+    backdrop-filter: blur(5px);
+    padding: 0 2vw 2vw;
+    border-radius: 10px;
+    font-weight: 900;
 }
 
 #title {
-    margin: 0;
-    font-size: 37px;
+    margin: 0 0 10px 0;
+    font-size: 40px;
     font-weight: 800;
-    color: #DB9F3DFF;
+    color: #ed6c02;
 }
 
 .right > p {
     max-width: 50vw;
-    font-size: 20px;
+    font-size: 18px;
+}
+
+#over {
     font-weight: 700;
 }
 
 .genres {
-    width: 300px;
     height: 50px;
     display: flex;
+    flex-flow: wrap;
     justify-content: flex-start;
     align-items: center;
     box-sizing: border-box;
-    padding-left: 28px;
 }
 
-.light {
-    color: black;
+.genres > button {
+    margin-right: 15px;
 }
 
+section img {
+    width: 50px;
+    margin-right: 10px;
+    border-radius: 5px;
+}

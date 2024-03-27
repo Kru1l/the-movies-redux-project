@@ -23,8 +23,6 @@ const genre = '/genre';
 const search = '/search';
 const query = '?query=';
 
-//                   /movie/upcoming?with_genre=10749
-
 const urls = {
     movies: {
         base: discover + movies,

@@ -1,5 +1,6 @@
 export * from './movieSlice';
 export * from './tvSlice';
 export * from './genreSlice';
-export * from './filterSlice';
 export * from './themeSlice';
+export * from './loadingSlice';
+export * from './watchListSlice';

@@ -7,8 +7,9 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 
 const TvShowDetailsPage = () => {
     const {tvShowDetails} = useAppSelector(state => state.tvShows);
-    const state = useParams<{ id: string, card: string }>();
+
     const dispatch = useAppDispatch();
+    const state = useParams<{ id: string, card: string }>();
 
     useEffect(() => {
         if (state?.id) {

@@ -1,6 +1,7 @@
-import {createTheme, FormControlLabel, FormGroup, styled, Switch} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../../hooks";
+import {FormControlLabel, FormGroup, styled, Switch} from "@mui/material";
+
 import {themeActions} from "../../store";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 
 const MaterialUISwitch = styled(Switch)(({theme}) => ({
     width: 62,
@@ -48,42 +49,20 @@ const MaterialUISwitch = styled(Switch)(({theme}) => ({
         borderRadius: 20 / 2,
     },
 }));
+
 const ThemeSwitch = () => {
-    const {theme, isDarkMode} = useAppSelector(state => state.theme);
+    const {isDarkMode} = useAppSelector(state => state.theme);
     const dispatch = useAppDispatch();
-
-    const darkTheme = createTheme({
-        palette: {
-            mode: 'dark',
-            primary: {
-                main: '#DB9F3DFF',
-            }
-        }
-    });
-
-    const lightTheme = createTheme({
-        palette: {
-            mode: 'light',
-            primary: {
-                main: '#DB9F3DFF',
-            }
-        },
-    });
-
-    // console.log(lightTheme);
-
-    const toggleTheme = () => {
-        dispatch(themeActions.setIsDarkMode())
-        dispatch(themeActions.setTheme(darkTheme))
-    };
 
     return (
         <div>
             <FormGroup>
                 <FormControlLabel
-                    control={<MaterialUISwitch sx={{m: 1}} checked={isDarkMode}
-                                               onChange={() => dispatch(themeActions.setIsDarkMode())}/>}
-                    label="Light"
+                    control={<MaterialUISwitch
+                        sx={{m: 1}}
+                        checked={isDarkMode}
+                        onChange={() => dispatch(themeActions.setIsDarkMode())}/>}
+                    label=''
                 />
             </FormGroup>
         </div>

@@ -1,6 +1,5 @@
 import {Movies} from "../../components";
 
-import styles from './MoviesPage.module.css';
 
 const MoviesPage = () => {
 

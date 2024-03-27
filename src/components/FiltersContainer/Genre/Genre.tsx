@@ -4,8 +4,8 @@ import {Checkbox, FormControlLabel} from "@mui/material";
 
 import styles from './Genre.module.css';
 import {IGenre} from "../../../interfaces";
-import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {genreActions} from "../../../store";
+import {useAppDispatch, useAppSelector} from "../../../hooks";
 
 interface IProps {
     genre: IGenre
@@ -13,12 +13,13 @@ interface IProps {
 
 const Genre: FC<IProps> = ({genre}) => {
     const {id, name} = genre;
+
     const {checkedMv, checkedTv} = useAppSelector(state => state.genres);
+    const {isDarkMode} = useAppSelector(state => state.theme);
 
-
-    const {pathname} = useLocation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const {pathname} = useLocation();
 
     const handleChangeMovie = (event: ChangeEvent<HTMLInputElement>): void => {
         dispatch(genreActions.setCheckedMv({name, checkedMv: event.target.checked}));
@@ -41,13 +42,15 @@ const Genre: FC<IProps> = ({genre}) => {
     };
 
     return (
-        <FormControlLabel className={styles.label}
-                          control={<Checkbox
-                              checked={pathname.includes('/movies') ? checkedMv[name] || false : checkedTv[name] || false}
-                              onChange={pathname.includes('/movies') ? handleChangeMovie : handleChangeTv}
-                              name={name}
-                              color={'success'}/>}
-                          label={name}/>
+        <FormControlLabel
+            className={`${styles.label} ${isDarkMode && styles.dark}`}
+            control={<Checkbox
+                checked={pathname.includes('movies') ? checkedMv[name] || false : checkedTv[name] || false}
+                onChange={pathname.includes('movies') ? handleChangeMovie : handleChangeTv}
+                name={name}
+                color={isDarkMode ? 'default' : 'success'}/>}
+            label={name}
+        />
     );
 };
 

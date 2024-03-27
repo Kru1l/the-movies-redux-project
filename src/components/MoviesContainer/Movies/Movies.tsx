@@ -5,16 +5,21 @@ import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import styles from '../../../styles/movies-Tvs.module.css';
 import {genreActions, movieActions} from "../../../store";
 import {Movie} from "../Movie/Movie";
+import {LoadingPage} from "../../../pages";
 import {PaginationAll} from "../../PaginationAll/PaginationAll";
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 
 const Movies = () => {
     const {movies, total_pages, sortMv} = useAppSelector(state => state.movies);
     const {genresMvIds, genresMvNames} = useAppSelector(state => state.genres);
-    const [query] = useSearchParams({page: '1'});
+    const {isLoading} = useAppSelector(state => state.loading);
+    const {isDarkMode} = useAppSelector(state => state.theme);
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {title} = useParams<{ title: string }>();
+
+    const [query] = useSearchParams({page: '1'});
     const page = query.get('page');
 
     useEffect(() => {
@@ -47,8 +52,9 @@ const Movies = () => {
     };
 
     return (
-        <div className={styles.Wrap}>
+        <div className={`${styles.Wrap} ${isDarkMode && styles.dark}`}>
             <h1>Watch Movies Online</h1>
+
             <p>
                 How many times have you sat down for the evening,
                 gotten comfortable with your drink, put on your lounge pants.
@@ -56,6 +62,8 @@ const Movies = () => {
                 it happens frequently. What can you do instead? How about watching a full length movie online through
                 Movies? You are guaranteed to find a movie you want to watch.
             </p>
+
+            {isLoading && <LoadingPage/>}
 
             {title ? (<div className={styles.queries}>
                     <div className={styles.box}>
@@ -88,8 +96,8 @@ const Movies = () => {
             </div>
 
             {total_pages > 1 && <PaginationAll/>}
+
         </div>
     );
 };
-
 export {Movies};

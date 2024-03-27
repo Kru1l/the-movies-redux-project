@@ -1,5 +1,5 @@
-import {IGenre} from "./genreInterface";
 import {IProduction_companies, IProduction_countries, ISpoken_languages} from "./movieDetailsInterface";
+import {IGenre} from "./genreInterface";
 
 interface ITvShowDetails {
     adult: boolean,
@@ -77,6 +77,5 @@ interface ISeasons {
     season_number: number,
     vote_average: number
 }
-
 
 export type {ITvShowDetails};

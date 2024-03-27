@@ -15,11 +15,16 @@
     top: 0;
 }
 
+.limpid {
+    background: rgba(107, 102, 98, 0);
+    color: black;
+}
+
 .logo {
     font-size: 32px;
     font-weight: 700;
-    color: #faa21b;
-    margin: 0 2vw;
+    color: #ed6c02;
+    margin: 0 3vw 0 3vw;
 }
 
 nav {
@@ -27,7 +32,6 @@ nav {
     height: 100%;
     display: flex;
     box-sizing: border-box;
-    /*justify-content: center;*/
     align-items: center;
     transition: 0.5s;
 }
@@ -48,14 +52,14 @@ nav > a {
 }
 
 nav > a:hover {
-    color: #f9a11b;
-    border-top: solid 5px #f9a11b;
+    color: #ed6c02;
+    border-top: solid 5px #ed6c02;
     transition: 0.5s;
 }
 
 nav > a[class='active'] {
-    color: #f9a11b;
-    border-top: solid 5px #f9a11b;
+    color: #ed6c02;
+    border-top: solid 5px #ed6c02;
     transition: 0.5s;
 }
 
