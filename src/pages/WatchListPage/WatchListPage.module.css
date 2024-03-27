@@ -1,4 +1,7 @@
 .WatchList {
+    width: 100vw;
+    height: 100vh;
+    flex-flow: wrap;
     display: flex;
     margin-top: 11vh;
 }
